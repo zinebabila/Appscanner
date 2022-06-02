@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:ignore="HardcodedText"
+    >
+
+    <RatingBar
+        android:id="@+id/rBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:background="@color/white"
+        android:numStars="5"
+        android:stepSize="0.5"
+        android:theme="@style/Widget.AppCompat.RatingBar"
+        android:translationX="100px" />
+    <com.google.android.material.textfield.TextInputLayout
+
+        android:layout_width="343dp"
+        android:layout_height="wrap_content"
+       >
+
+        <EditText
+            android:id="@+id/coment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Your Comment" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+
+</LinearLayout>

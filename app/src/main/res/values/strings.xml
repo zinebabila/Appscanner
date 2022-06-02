@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">ScannerApp</string>
+    <string name="error">erreur</string>
+    <string name="navigation_drawer_open" />
+    <string name="navigation_drawer_close" />
+</resources>

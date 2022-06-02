@@ -1,0 +1,39 @@
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:background="#fffffdff"
+    android:layout_height="match_parent"
+    tools:context=".scannerActivity">
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        >
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|enterAlways"
+            />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <SurfaceView
+        android:id="@+id/cameraSurfaceView"
+        android:layout_width="313dp"
+        android:layout_height="322dp"
+        android:translationX="40px"
+        android:translationY="300px" />
+
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="258dp"
+        android:layout_height="85dp"
+        android:textSize="30px"
+        android:translationX="100px"
+        android:translationY="1100px" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

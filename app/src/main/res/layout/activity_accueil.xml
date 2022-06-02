@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent"
+    android:background="#fffffa"
+    android:id="@+id/coordinator"
+    android:layout_width="match_parent"
+
+    >
+
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/drawer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_anchor="@+id/drawer_layout"
+        app:layout_anchorGravity="center">
+        <!-- tools:openDrawer="start" -->
+        />
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.appbar.AppBarLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fitsSystemWindows="true">
+
+            </com.google.android.material.appbar.AppBarLayout>
+
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/qrScanner"
+                android:layout_width="175dp"
+                android:layout_height="177dp"
+                android:background="@drawable/ic_qrcode_scan"
+                android:translationX="300px"
+                android:translationY="300px"
+
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="83dp"
+                android:text="Nouveau Transaction"
+
+                android:textSize="18dp"
+                android:translationX="300px"
+                android:translationY="850px" />
+
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar_main"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                app:layout_anchor="@+id/toolbar_main"
+                app:layout_anchorGravity="center"
+                app:layout_scrollFlags="scroll|enterAlways"></androidx.appcompat.widget.Toolbar>
+
+
+
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
+        <com.google.android.material.navigation.NavigationView
+            android:id="@+id/nav_view"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            app:headerLayout="@layout/nav_header_main"
+            app:menu="@menu/activity_main_drawer" />
+    </androidx.drawerlayout.widget.DrawerLayout>
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
+
+
