@@ -1,19 +1,13 @@
 package com.example.scannerapp
-import android.Manifest
 import android.annotation.SuppressLint
-import android.annotation.TargetApi
-import android.app.KeyguardManager
-import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.hardware.fingerprint.FingerprintManager
 import android.os.Build
 import android.os.Bundle
-import android.security.keystore.KeyGenParameterSpec
-import android.security.keystore.KeyPermanentlyInvalidatedException
-import android.security.keystore.KeyProperties
+import android.view.LayoutInflater
 import android.view.SurfaceHolder
+import android.view.View
 import android.widget.RatingBar
 import android.widget.TextView
 import android.widget.Toast
@@ -24,11 +18,11 @@ import androidx.appcompat.widget.Toolbar
 import androidx.biometric.BiometricPrompt
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.airbnb.lottie.LottieAnimationView
 import com.example.scanner.bo.Account
 import com.example.scanner.bo.Customer
 import com.example.scanner.security.TokenManager
 import com.example.scannerapp.bo.*
-import com.example.scannerapp.controller.CustumerController
 import com.example.scannerapp.controller.DataReqController
 import com.example.scannerapp.controller.WalletController
 import com.example.scannerapp.databinding.ActivityMainBinding
@@ -43,14 +37,7 @@ import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Response
 import java.io.IOException
-import java.security.*
-import java.security.cert.CertificateException
 import java.util.concurrent.Executor
-import javax.crypto.Cipher
-import javax.crypto.KeyGenerator
-import javax.crypto.NoSuchPaddingException
-import javax.crypto.SecretKey
-import kotlin.math.cos
 
 
 class scannerActivity : AppCompatActivity() {
@@ -311,25 +298,25 @@ class scannerActivity : AppCompatActivity() {
                                         }
                                         println(wallet!!.solde)
                                         modifierwallet(wallet!!, merchant.user!!)
-                                        haverating()
+                                        success()
                                         println("**************************************")
 
                                         okk = 1
                                     } else {
-                                        val builder: AlertDialog.Builder =
-                                            AlertDialog.Builder(this@scannerActivity)
-                                        builder.setMessage("echec")
-                                        builder.setTitle("alert !")
-                                        builder.setCancelable(false)
-                                            .setNegativeButton(
-                                                "Cancel",
-                                                DialogInterface.OnClickListener { dialog, id ->
-                                                    dialog.cancel()
-                                                    reglerPaymentFailure()
-                                                    goParent()
-                                                })
-                                        val alert = builder.create()
+                                        val dialogBuilder = AlertDialog.Builder(this@scannerActivity)
+                                        dialogBuilder.setTitle("Echec")
+                                        val inflater = LayoutInflater.from(this@scannerActivity)
+                                        val dialogLayout = inflater.inflate(R.layout.dialoguefailure, null)
+                                        dialogBuilder.setView(dialogLayout)
+                                            .setCancelable(false)
+                                            .setNegativeButton("OK", DialogInterface.OnClickListener {
+                                                    dialog, id -> dialog.cancel()
+
+                                                goParent()
+                                            })
+                                        val alert = dialogBuilder.create()
                                         alert.show()
+                                        reglerPaymentFailure()
                                         okk = 1
                                     }
                                 }
@@ -337,20 +324,21 @@ class scannerActivity : AppCompatActivity() {
 
                             }
                             if (okk == 0) {
-                                val builder: AlertDialog.Builder =
-                                    AlertDialog.Builder(this@scannerActivity)
-                                builder.setMessage("echec vous ne supporter pas cette currency")
-                                builder.setTitle("alert !")
-                                builder.setCancelable(false)
-                                    .setNegativeButton(
-                                        "Cancel",
-                                        DialogInterface.OnClickListener { dialog, id ->
-                                            dialog.cancel()
-                                            reglerPaymentFailure()
-                                            goParent()
-                                        })
-                                val alert = builder.create()
+                                val dialogBuilder = AlertDialog.Builder(this@scannerActivity)
+                               // dialogBuilder.setMessage("echec vous ne supporter pas cette currency")
+                                dialogBuilder.setTitle("alert !")
+                                val inflater = LayoutInflater.from(this@scannerActivity)
+                                val dialogLayout = inflater.inflate(R.layout.dialoguefailure, null)
+                                dialogBuilder.setView(dialogLayout)
+                                    .setCancelable(false)
+                                    .setNegativeButton("OK", DialogInterface.OnClickListener {
+                                            dialog, id -> dialog.cancel()
+
+                                        goParent()
+                                    })
+                                val alert = dialogBuilder.create()
                                 alert.show()
+                                reglerPaymentFailure()
                             }
 
                         } else {
@@ -373,8 +361,6 @@ class scannerActivity : AppCompatActivity() {
         val dialogBuilder = AlertDialog.Builder(this@scannerActivity)
         dialogBuilder.setTitle("You Rating")
         dialogBuilder.setMessage("solde suffisant Success !")
-        // set message of alert dialog
-
         val inflater = layoutInflater
         val dialogLayout  = inflater.inflate(R.layout.activity_rating, null)
         val rBar  = dialogLayout.findViewById< RatingBar>(R.id.rBar)
@@ -485,6 +471,7 @@ class scannerActivity : AppCompatActivity() {
                         if(comment.length!=0){
                             data.comment=comment
                         }
+
                         data.firstName=firstName
                         println(data.firstName +"                         okkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk");
                         data.lastName=lastName
@@ -569,6 +556,20 @@ class scannerActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         cameraSource.stop()
+    }
+    fun success(){
+        val dialogBuilder = AlertDialog.Builder(this@scannerActivity)
+        dialogBuilder.setTitle("Success")
+        val inflater = LayoutInflater.from(this@scannerActivity)
+        val dialogLayout = inflater.inflate(R.layout.dialogue, null)
+        dialogBuilder.setView(dialogLayout)
+            .setCancelable(false)
+            .setNegativeButton("OK", DialogInterface.OnClickListener {
+                    dialog, id -> dialog.cancel()
+                haverating()
+            })
+        val alert = dialogBuilder.create()
+        alert.show()
     }
 
 }

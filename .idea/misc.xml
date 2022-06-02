@@ -3,10 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Lenovo/Desktop/Appscanner/app/src/main/res/layout-w1240dp/dialog_signin.xml" value="0.15170068027210884" />
+        <entry key="..\:/Users/Lenovo/Desktop/Appscanner/app/src/main/res/layout-w1240dp/dialoguefailure.xml" value="0.187890625" />
         <entry key="..\:/Users/Lenovo/Desktop/Appscanner/app/src/main/res/layout/activity_accueil.xml" value="0.259375" />
         <entry key="..\:/Users/Lenovo/Desktop/Appscanner/app/src/main/res/layout/activity_add_product.xml" value="0.259375" />
         <entry key="..\:/Users/Lenovo/Desktop/Appscanner/app/src/main/res/layout/activity_login.xml" value="0.259375" />
         <entry key="..\:/Users/Lenovo/Desktop/Appscanner/app/src/main/res/layout/activity_main.xml" value="0.46709916589434664" />
+        <entry key="..\:/Users/Lenovo/Desktop/Appscanner/app/src/main/res/layout/dialogue.xml" value="0.1" />
+        <entry key="..\:/Users/Lenovo/Desktop/Appscanner/app/src/main/res/layout/dialoguefailure.xml" value="0.259375" />
       </map>
     </option>
   </component>
