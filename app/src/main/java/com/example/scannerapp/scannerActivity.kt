@@ -5,7 +5,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.SurfaceHolder
 import android.view.View
 import android.widget.RatingBar
@@ -19,6 +18,7 @@ import androidx.biometric.BiometricPrompt
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.airbnb.lottie.LottieAnimationView
+import com.airbnb.lottie.LottieDrawable
 import com.example.scanner.bo.Account
 import com.example.scanner.bo.Customer
 import com.example.scanner.security.TokenManager
@@ -192,10 +192,7 @@ class scannerActivity : AppCompatActivity() {
                     //Don't forget to add this line printing value or finishing activity must run on main thread
                     runOnUiThread {
                         cameraSource.stop()
-
                         validerpayment(scannedValue)
-
-
 
                     }
                 }else
@@ -242,7 +239,9 @@ class scannerActivity : AppCompatActivity() {
                 goParent()
             })
             .setPositiveButton("Ok", DialogInterface.OnClickListener { dialog, id ->
-                dialog.cancel()
+                dialog.dismiss()
+              //  dialog.cancel()
+
                 promptInfo = BiometricPrompt.PromptInfo.Builder()
                     .setTitle("Biometric login for my app")
                     .setSubtitle("Log in using your biometric credential")
@@ -303,20 +302,18 @@ class scannerActivity : AppCompatActivity() {
 
                                         okk = 1
                                     } else {
-                                        val dialogBuilder = AlertDialog.Builder(this@scannerActivity)
-                                        dialogBuilder.setTitle("Echec")
-                                        val inflater = LayoutInflater.from(this@scannerActivity)
-                                        val dialogLayout = inflater.inflate(R.layout.dialoguefailure, null)
-                                        dialogBuilder.setView(dialogLayout)
-                                            .setCancelable(false)
-                                            .setNegativeButton("OK", DialogInterface.OnClickListener {
-                                                    dialog, id -> dialog.cancel()
-
-                                                goParent()
-                                            })
-                                        val alert = dialogBuilder.create()
-                                        alert.show()
                                         reglerPaymentFailure()
+
+                                        val animationView: LottieAnimationView = findViewById(R.id.animation_view1)
+                                        animationView.setAnimation(R.raw.paymentfailed)
+                                        animationView.repeatCount = 3
+                                        animationView.playAnimation()
+                                        animationView.setOnClickListener(
+                                            View.OnClickListener {
+                                                goParent()
+                                            }
+                                        )
+
                                         okk = 1
                                     }
                                 }
@@ -324,21 +321,18 @@ class scannerActivity : AppCompatActivity() {
 
                             }
                             if (okk == 0) {
-                                val dialogBuilder = AlertDialog.Builder(this@scannerActivity)
-                               // dialogBuilder.setMessage("echec vous ne supporter pas cette currency")
-                                dialogBuilder.setTitle("alert !")
-                                val inflater = LayoutInflater.from(this@scannerActivity)
-                                val dialogLayout = inflater.inflate(R.layout.dialoguefailure, null)
-                                dialogBuilder.setView(dialogLayout)
-                                    .setCancelable(false)
-                                    .setNegativeButton("OK", DialogInterface.OnClickListener {
-                                            dialog, id -> dialog.cancel()
 
-                                        goParent()
-                                    })
-                                val alert = dialogBuilder.create()
-                                alert.show()
                                 reglerPaymentFailure()
+                                val animationView: LottieAnimationView = findViewById(R.id.animation_view1)
+                                animationView.setAnimation(R.raw.paymentfailed)
+                                animationView.repeatCount = LottieDrawable.INFINITE
+                                animationView.playAnimation()
+                                animationView.setOnClickListener(
+                                    View.OnClickListener {
+                                        goParent()
+                                    }
+                                )
+
                             }
 
                         } else {
@@ -558,18 +552,17 @@ class scannerActivity : AppCompatActivity() {
         cameraSource.stop()
     }
     fun success(){
-        val dialogBuilder = AlertDialog.Builder(this@scannerActivity)
-        dialogBuilder.setTitle("Success")
-        val inflater = LayoutInflater.from(this@scannerActivity)
-        val dialogLayout = inflater.inflate(R.layout.dialogue, null)
-        dialogBuilder.setView(dialogLayout)
-            .setCancelable(false)
-            .setNegativeButton("OK", DialogInterface.OnClickListener {
-                    dialog, id -> dialog.cancel()
+
+        val animationView: LottieAnimationView = findViewById(R.id.animation_view1)
+        animationView.setAnimation(R.raw.successful)
+        animationView.repeatCount = 3
+        animationView.playAnimation()
+        animationView.setOnClickListener(
+            View.OnClickListener {
                 haverating()
-            })
-        val alert = dialogBuilder.create()
-        alert.show()
+            }
+        )
+
     }
 
 }

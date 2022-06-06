@@ -36,4 +36,11 @@
         android:textSize="30px"
         android:translationX="100px"
         android:translationY="1100px" />
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/animation_view1"
+        android:layout_width="313dp"
+        android:layout_height="322dp"
+        android:translationX="40px"
+        android:translationY="300px"
+        />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
