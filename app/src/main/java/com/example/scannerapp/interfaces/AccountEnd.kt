@@ -20,7 +20,7 @@ interface AccountEnd {
             .create()
 
         var authToken:String?=null
-        private var BASE_URL = "http://192.168.86.23:9099"
+        private var BASE_URL = "http://192.168.86.32:9099"
 
             val retrofit: Retrofit = Retrofit.Builder()
                 .client( OkHttpClient.Builder()

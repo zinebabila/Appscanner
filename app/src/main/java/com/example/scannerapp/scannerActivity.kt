@@ -1,5 +1,7 @@
 package com.example.scannerapp
+
 import android.annotation.SuppressLint
+import android.app.Dialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -7,9 +9,7 @@ import android.os.Build
 import android.os.Bundle
 import android.view.SurfaceHolder
 import android.view.View
-import android.widget.RatingBar
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -228,33 +228,37 @@ class scannerActivity : AppCompatActivity() {
         } catch (e: Exception) {
             e.printStackTrace()
         }
+        val dialog = Dialog(this, R.style.DialogStyle)
+        dialog.setContentView(R.layout.layout_custom_dialog)
+        promptInfo = BiometricPrompt.PromptInfo.Builder()
+            .setTitle("Biometric login for my app")
+            .setSubtitle("Log in using your biometric credential")
+            .setNegativeButtonText("Cancel")
+            .build()
+        dialog.getWindow()?.setBackgroundDrawableResource(R.drawable.bg_window)
+        var texttitle:TextView=dialog.findViewById(R.id.txttite)
+        texttitle.text="validate your payment"
 
-        val builder: AlertDialog.Builder = AlertDialog.Builder(this@scannerActivity)
+        var textview:TextView=dialog.findViewById(R.id.txtDesc)
+        textview.text="you have placed an order with "+FirstName+" "+LastName+"\n the sum is "+  soldewallet + currencyName
+        var bntclose:Button=dialog.findViewById(R.id.btn_no)
+        bntclose.setOnClickListener(View.OnClickListener { dialog.dismiss()
+            reglerPaymentFailure()
+        goParent()
+        })
 
-        builder.setTitle("Validate Paiement")
-        builder.setMessage("you have placed an order with "+FirstName+" "+LastName+"\n the sum is "+  soldewallet + currencyName)
-        builder.setCancelable(false)
-            .setNegativeButton("Cancel", DialogInterface.OnClickListener { dialog, id ->
-                dialog.cancel()
-                goParent()
-            })
-            .setPositiveButton("Ok", DialogInterface.OnClickListener { dialog, id ->
-                dialog.dismiss()
-              //  dialog.cancel()
+        val btnClose: ImageView = dialog.findViewById(R.id.btn_close)
 
-                promptInfo = BiometricPrompt.PromptInfo.Builder()
-                    .setTitle("Biometric login for my app")
-                    .setSubtitle("Log in using your biometric credential")
-                    .setNegativeButtonText("Cancel")
-                    .build()
+        btnClose.setOnClickListener(View.OnClickListener { dialog.dismiss()
+            goParent() })
+        var btnYes:Button=dialog.findViewById(R.id.btn_yes)
+        btnYes.setOnClickListener(View.OnClickListener { dialog.dismiss()
 
 
-                biometricPrompt.authenticate(promptInfo)
 
-            })
-        val alert = builder.create()
-        alert.show()
+            biometricPrompt.authenticate(promptInfo) })
 
+        dialog.show()
 
     }
     fun reglerPayment() {
@@ -304,16 +308,26 @@ class scannerActivity : AppCompatActivity() {
                                     } else {
                                         reglerPaymentFailure()
 
-                                        val animationView: LottieAnimationView = findViewById(R.id.animation_view1)
+                                        val dialog = Dialog(this@scannerActivity, R.style.DialogStyle)
+                                        dialog.setContentView(R.layout.layout_costumer_dialogue_pay)
+                                        dialog.getWindow()?.setBackgroundDrawableResource(R.drawable.bg_window)
+                                        var texttitle:TextView=dialog.findViewById(R.id.txttite2)
+                                        texttitle.text="Payment failed"
+                                        val animationView: LottieAnimationView = dialog.findViewById(R.id.animation_view2)
                                         animationView.setAnimation(R.raw.paymentfailed)
-                                        animationView.repeatCount = 3
+                                        animationView.repeatCount = 100
                                         animationView.playAnimation()
-                                        animationView.setOnClickListener(
-                                            View.OnClickListener {
-                                                goParent()
-                                            }
-                                        )
+                                        val btnClose: ImageView = dialog.findViewById(R.id.btn_close2)
 
+                                        btnClose.setOnClickListener(View.OnClickListener { dialog.dismiss()
+                                            goParent()
+                                        })
+                                        var btnYes:Button=dialog.findViewById(R.id.btn_yes2)
+                                        btnYes.setOnClickListener(View.OnClickListener { dialog.dismiss()
+                                            goParent()
+                                        })
+
+                                        dialog.show()
                                         okk = 1
                                     }
                                 }
@@ -323,15 +337,27 @@ class scannerActivity : AppCompatActivity() {
                             if (okk == 0) {
 
                                 reglerPaymentFailure()
-                                val animationView: LottieAnimationView = findViewById(R.id.animation_view1)
+                                val dialog = Dialog(this@scannerActivity, R.style.DialogStyle)
+                                dialog.setContentView(R.layout.layout_costumer_dialogue_pay)
+                                dialog.getWindow()?.setBackgroundDrawableResource(R.drawable.bg_window)
+                                var texttitle:TextView=dialog.findViewById(R.id.txttite2)
+                                texttitle.text="Payment failed"
+                                val animationView: LottieAnimationView = dialog.findViewById(R.id.animation_view2)
                                 animationView.setAnimation(R.raw.paymentfailed)
-                                animationView.repeatCount = LottieDrawable.INFINITE
+                                animationView.repeatCount = 100
                                 animationView.playAnimation()
-                                animationView.setOnClickListener(
-                                    View.OnClickListener {
-                                        goParent()
-                                    }
-                                )
+                                val btnClose: ImageView = dialog.findViewById(R.id.btn_close2)
+
+                                btnClose.setOnClickListener(View.OnClickListener { dialog.dismiss()
+                                    goParent()
+                                })
+                                var btnYes:Button=dialog.findViewById(R.id.btn_yes2)
+                                btnYes.setOnClickListener(View.OnClickListener { dialog.dismiss()
+                                    goParent()
+                                })
+
+                                dialog.show()
+
 
                             }
 
@@ -552,16 +578,26 @@ class scannerActivity : AppCompatActivity() {
         cameraSource.stop()
     }
     fun success(){
-
-        val animationView: LottieAnimationView = findViewById(R.id.animation_view1)
+        println("je suiiis iciiiii")
+        val dialog = Dialog(this@scannerActivity, R.style.DialogStyle)
+        dialog.setContentView(R.layout.layout_costumer_dialogue_pay)
+        dialog.getWindow()?.setBackgroundDrawableResource(R.drawable.bg_window)
+        var texttitle:TextView=dialog.findViewById(R.id.txttite2)
+        texttitle.text="Payment Succecful"
+        val animationView: LottieAnimationView = dialog.findViewById(R.id.animation_view2)
         animationView.setAnimation(R.raw.successful)
-        animationView.repeatCount = 3
+        animationView.repeatCount = 100
         animationView.playAnimation()
-        animationView.setOnClickListener(
-            View.OnClickListener {
-                haverating()
-            }
-        )
+        val btnClose: ImageView = dialog.findViewById(R.id.btn_close2)
+
+        btnClose.setOnClickListener(View.OnClickListener { dialog.dismiss()
+            haverating()
+        })
+        var btnYes:Button=dialog.findViewById(R.id.btn_yes2)
+        btnYes.setOnClickListener(View.OnClickListener { dialog.dismiss()
+            haverating()
+        })
+       dialog.show()
 
     }
 

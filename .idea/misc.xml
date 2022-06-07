@@ -3,6 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Lenovo/Desktop/Appscanner/app/src/main/res/drawable-v24/bg_test.xml" value="0.234" />
+        <entry key="..\:/Users/Lenovo/Desktop/Appscanner/app/src/main/res/drawable/bg_test.xml" value="0.234" />
+        <entry key="..\:/Users/Lenovo/Desktop/Appscanner/app/src/main/res/drawable/ic_android.xml" value="0.234" />
+        <entry key="..\:/Users/Lenovo/Desktop/Appscanner/app/src/main/res/drawable/ic_clear.xml" value="0.234" />
+        <entry key="..\:/Users/Lenovo/Desktop/Appscanner/app/src/main/res/drawable/ic_corner.xml" value="0.234" />
+        <entry key="..\:/Users/Lenovo/Desktop/Appscanner/app/src/main/res/font/open_sans.xml" value="0.28958333333333336" />
         <entry key="..\:/Users/Lenovo/Desktop/Appscanner/app/src/main/res/layout-w1240dp/dialog_signin.xml" value="0.15170068027210884" />
         <entry key="..\:/Users/Lenovo/Desktop/Appscanner/app/src/main/res/layout-w1240dp/dialoguefailure.xml" value="0.187890625" />
         <entry key="..\:/Users/Lenovo/Desktop/Appscanner/app/src/main/res/layout/activity_accueil.xml" value="0.259375" />
@@ -11,6 +17,8 @@
         <entry key="..\:/Users/Lenovo/Desktop/Appscanner/app/src/main/res/layout/activity_main.xml" value="0.46709916589434664" />
         <entry key="..\:/Users/Lenovo/Desktop/Appscanner/app/src/main/res/layout/dialogue.xml" value="0.1" />
         <entry key="..\:/Users/Lenovo/Desktop/Appscanner/app/src/main/res/layout/dialoguefailure.xml" value="0.259375" />
+        <entry key="..\:/Users/Lenovo/Desktop/Appscanner/app/src/main/res/layout/layout_costumer_dialogue_pay.xml" value="0.24375" />
+        <entry key="..\:/Users/Lenovo/Desktop/Appscanner/app/src/main/res/layout/layout_custom_dialog.xml" value="0.259375" />
       </map>
     </option>
   </component>
