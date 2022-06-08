@@ -16,9 +16,9 @@ interface AuthenEndReq {
             .setLenient()
             .create()
 
-       private var BASE_URL = "http://192.168.86.27:8080"
+      //private var BASE_URL = "http://192.168.86.27:8080"
        // private var BASE_URL = "http://192.168.86.31:8080"
-      //   private var BASE_URL = "http://192.168.86.32:9090"
+         private var BASE_URL = "http://192.168.86.32:9090"
         val retrofit: Retrofit = Retrofit.Builder()
             .addConverterFactory(ScalarsConverterFactory.create())
             .addConverterFactory(GsonConverterFactory.create(gson))
