@@ -5,6 +5,7 @@ import android.app.Dialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.BitmapFactory
 import android.os.Build
 import android.os.Bundle
 import android.view.SurfaceHolder
@@ -33,10 +34,16 @@ import com.google.android.gms.vision.CameraSource
 import com.google.android.gms.vision.Detector
 import com.google.android.gms.vision.barcode.Barcode
 import com.google.android.gms.vision.barcode.BarcodeDetector
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Response
+import java.io.File
 import java.io.IOException
+import java.io.InputStream
+import java.net.URL
 import java.util.concurrent.Executor
 
 
@@ -53,6 +60,7 @@ class scannerActivity : AppCompatActivity() {
     private lateinit var executor: Executor
     private lateinit var biometricPrompt: BiometricPrompt
     private lateinit var promptInfo: BiometricPrompt.PromptInfo
+    private  lateinit var imagefile:String
 
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
@@ -461,6 +469,7 @@ class scannerActivity : AppCompatActivity() {
         var id:Long?=null
         var adresse:String?=null
         var email:String?=null
+        var idimage:Long?=null
 
         AccountEnd.authToken = session.gettokenDetails()
         apiService = AccountEnd.retrofit.create(AccountController::class.java)
@@ -468,13 +477,15 @@ class scannerActivity : AppCompatActivity() {
             override fun onResponse(call: Call<Account>, response: Response<Account>) {
                 if (response.body() != null) {
                   var  costumer=response.body()!!
-                    println(costumer.user?.firstName+"       "+costumer.user?.lastName+"             ")
+                    println("***************************************************")
+                    println(costumer.user?.image?.id.toString()+costumer.user?.adresse+costumer.email)
 
                      firstName=costumer.user?.firstName
                     lastName=costumer.user?.lastName
                     numTel=costumer.user?.numTel
-                    urlimage=costumer.user?.urlImage
+                   // urlimage=costumer.user?.urlImage
                     id=costumer.user?.id
+                    idimage=costumer.user?.image?.id
                     adresse= costumer.user?.adresse
                     email=costumer.email
                     lateinit var decrypted:String
@@ -497,7 +508,7 @@ class scannerActivity : AppCompatActivity() {
                         data.lastName=lastName
                         data.id_customer=id
                         data.numTel=numTel
-                        data.urlimage=urlimage
+
                         data.email=email
                         data.adresse=adresse
                         data.coupon=c
@@ -537,6 +548,36 @@ class scannerActivity : AppCompatActivity() {
                             println(t.message)
                         }
                     })
+
+                    val inputStream: InputStream =
+                        URL("http://192.168.2.106:9099/images/get/"+idimage).openConnection().getInputStream()
+                    var file:File?=createTempFile()
+                    if (file != null) {
+                        file.copyInputStreamToFile(inputStream)
+                    }
+
+
+                    val uploadFile = MultipartBody.Part.createFormData(
+                        "imageFile",
+                        file?.name,
+                        RequestBody.create(MediaType.parse("multipart/form-data"), file)
+                    )
+                    val request=RequestBody.create(MediaType.parse("multipart/form-data"), id.toString())
+                    val requestimage=RequestBody.create(MediaType.parse("multipart/form-data"),idimage.toString() )
+                    accou.addImage(request,requestimage,uploadFile).enqueue(object : retrofit2.Callback<String>{
+                        override fun onResponse(call: Call<String>, response: Response<String>) {
+                            println(response.body()!!)
+                        }
+
+                        override fun onFailure(call: Call<String>, t: Throwable) {
+                           println(t.message)
+                        }
+
+                    })
+
+
+
+
                 } else {
                     println("error")
                 }
@@ -550,6 +591,12 @@ class scannerActivity : AppCompatActivity() {
         })
 
     }
+    fun File.copyInputStreamToFile(inputStream: InputStream) {
+        this.outputStream().use { fileOut ->
+            inputStream.copyTo(fileOut)
+        }
+    }
+
     private fun askForCameraPermission() {
         ActivityCompat.requestPermissions(
             this@scannerActivity,

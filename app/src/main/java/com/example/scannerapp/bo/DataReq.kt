@@ -49,9 +49,6 @@ class DataReq {
     @SerializedName("id_customer")
     @Expose
     var id_customer: Long? = null
-    @SerializedName("urlimage")
-    @Expose
-    var urlimage: String? = null
 
     @SerializedName("rating")
     @Expose

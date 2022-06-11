@@ -97,7 +97,7 @@ class WalletsActivity : AppCompatActivity() {
                 if (somme != null) {
                     for(wallet in list) {
                         var tether =
-                            parser.getJSONObject(wallet?.currency?.currencyName).getString("usd")
+                            parser.getJSONObject(wallet?.currency?.currencyName?.lowercase()).getString("usd")
                                 .toDouble()
 
                         somme += wallet?.solde?.times(tether)!!

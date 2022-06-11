@@ -1,5 +1,8 @@
 package com.example.scanner.bo
 
+import com.example.scannerapp.bo.Image
+
+
 abstract class Person {
 
 
@@ -10,6 +13,6 @@ abstract class Person {
     var lastName: String? = null
 
     var numTel: String? = null
-    var urlImage: String? = null
+     var image: Image? = null
     var adresse: String? = null
 }

@@ -62,7 +62,7 @@ class WalletAdapter(var context: Context, var products: MutableSet<Wallet?>? =Ha
             //  val parser:JSONObject= JSONObject(result)
 
             val df = DecimalFormat("0.00")
-            itemTitle.text =df.format(product.solde)
+            itemTitle.text =df.format(product.solde)+" "+product.currency?.symbol
         //  var solde=  product?.solde?.times(product?.currency?.percentageToDollar!!)
            // import java.text.DecimalFormat;
 
@@ -86,7 +86,7 @@ class WalletAdapter(var context: Context, var products: MutableSet<Wallet?>? =Ha
                     var str_response = response.body()!!.string()
                     //creating json object
                     val parser: JSONObject = JSONObject(str_response)
-                    var tether=parser.getJSONObject(product.currency?.currencyName).getString("usd").toDouble()
+                    var tether=parser.getJSONObject(product.currency?.currencyName?.lowercase() ).getString("usd").toDouble()
 
                     println("imppppppppppppppppppppppppppppppportant")
                     println(tether)

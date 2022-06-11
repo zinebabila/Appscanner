@@ -24,6 +24,9 @@ class Currency {
     @SerializedName("wallets")
     @Expose
      val wallets: Set<Wallet> = HashSet()
+    @SerializedName("symbol")
+    @Expose
+    val symbol: String? = null
 
 
 }
