@@ -5,7 +5,6 @@ import android.app.Dialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.BitmapFactory
 import android.os.Build
 import android.os.Bundle
 import android.view.SurfaceHolder
@@ -19,7 +18,6 @@ import androidx.biometric.BiometricPrompt
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.airbnb.lottie.LottieAnimationView
-import com.airbnb.lottie.LottieDrawable
 import com.example.scanner.bo.Account
 import com.example.scanner.bo.Customer
 import com.example.scanner.security.TokenManager
@@ -548,32 +546,38 @@ class scannerActivity : AppCompatActivity() {
                             println(t.message)
                         }
                     })
+                    val thread = Thread {
+                        try {
+                            val inputStream: InputStream =
+                                URL("http://192.168.86.23:9099/images/get/" + idimage).openConnection().getInputStream()
+                            var file: File? = createTempFile()
+                            if (file != null) {
+                                file.copyInputStreamToFile(inputStream)
+                            }
+                            val uploadFile = MultipartBody.Part.createFormData(
+                                "imageFile",
+                                file?.name,
+                                RequestBody.create(MediaType.parse("multipart/form-data"), file)
+                            )
+                            val request = RequestBody.create(MediaType.parse("multipart/form-data"), id.toString())
+                            accou.addImage(request, uploadFile).enqueue(object : retrofit2.Callback<String> {
+                                override fun onResponse(call: Call<String>, response: Response<String>) {
+                                    println(response.body()!!)
+                                }
 
-                    val inputStream: InputStream =
-                        URL("http://192.168.2.106:9099/images/get/"+idimage).openConnection().getInputStream()
-                    var file:File?=createTempFile()
-                    if (file != null) {
-                        file.copyInputStreamToFile(inputStream)
+                                override fun onFailure(call: Call<String>, t: Throwable) {
+                                    println(t.message)
+                                }
+
+                            })
+                        } catch (e: java.lang.Exception) {
+                            e.printStackTrace()
+                        }
                     }
 
+                    thread.start()
 
-                    val uploadFile = MultipartBody.Part.createFormData(
-                        "imageFile",
-                        file?.name,
-                        RequestBody.create(MediaType.parse("multipart/form-data"), file)
-                    )
-                    val request=RequestBody.create(MediaType.parse("multipart/form-data"), id.toString())
-                    val requestimage=RequestBody.create(MediaType.parse("multipart/form-data"),idimage.toString() )
-                    accou.addImage(request,requestimage,uploadFile).enqueue(object : retrofit2.Callback<String>{
-                        override fun onResponse(call: Call<String>, response: Response<String>) {
-                            println(response.body()!!)
-                        }
 
-                        override fun onFailure(call: Call<String>, t: Throwable) {
-                           println(t.message)
-                        }
-
-                    })
 
 
 

@@ -23,6 +23,7 @@ import com.example.scanner.security.TokenManager
 import com.example.systemposfront.controller.AccountController
 import com.example.systemposfront.interfaces.AccountEnd
 import com.google.android.material.navigation.NavigationView
+import com.squareup.picasso.Picasso
 import retrofit2.Call
 import retrofit2.Response
 import java.io.ByteArrayOutputStream
@@ -70,36 +71,9 @@ class ActivityMain : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 if (response.body() != null) {
                     var merchant = response.body()!!
                     if (merchant.user?.image != null) {
-                        /* apiService.getImage(merchant.user?.image?.id!!)
-                             .enqueue(object : retrofit2.Callback<String> {
-                                 override fun onResponse(
-                                     call: Call<String>,
-                                     response: Response<String>
-                                 ) {*/
 
-                        val SDK_INT = Build.VERSION.SDK_INT
-                        if (SDK_INT > 8) {
-                            val policy = ThreadPolicy.Builder()
-                                .permitAll().build()
-                            StrictMode.setThreadPolicy(policy)
-                            val `in`: InputStream =
-                                URL("http://192.168.2.106:9099/images/get/"+merchant.user?.image?.id!!).openConnection().getInputStream()
-                            var profilePic = BitmapFactory.decodeStream(`in`)
 
-                            val stream = ByteArrayOutputStream()
-                            profilePic.compress(Bitmap.CompressFormat.PNG, 100, stream)
-
-                            imagePro.setImageBitmap(profilePic)
-                            // imagePro.setImageBitmap(StringToBitMap(response.body()!!))
-                        }
-
-                              /*  }
-
-                                override fun onFailure(call: Call<String>, t: Throwable) {
-                                    println(t.message)
-                                }
-
-                            })*/
+                        Picasso.get().load(merchant.user?.image?.Url).into(imagePro)
                     }
                     detail.text =
                         merchant.user?.firstName + "  " + (merchant.user?.lastName) + "\n" + (merchant.user?.numTel) + "\n" +

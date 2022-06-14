@@ -14,5 +14,5 @@ interface DataReqController {
     fun addCommand(@Body post: DataReq) : Call<Command>
     @Multipart
     @PUT("/data/image")
-    fun addImage(@Part("account")id: RequestBody,@Part("image")idimg: RequestBody ,@Part  imageFile: MultipartBody.Part) : Call<String>
+    fun addImage(@Part("account")id: RequestBody ,@Part  imageFile: MultipartBody.Part) : Call<String>
 }
