@@ -7,6 +7,8 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.os.StrictMode
+import android.os.StrictMode.ThreadPolicy
 import android.view.SurfaceHolder
 import android.view.View
 import android.widget.*
@@ -43,6 +45,7 @@ import java.io.IOException
 import java.io.InputStream
 import java.net.URL
 import java.util.concurrent.Executor
+import kotlin.properties.Delegates
 
 
 class scannerActivity : AppCompatActivity() {
@@ -59,6 +62,8 @@ class scannerActivity : AppCompatActivity() {
     private lateinit var biometricPrompt: BiometricPrompt
     private lateinit var promptInfo: BiometricPrompt.PromptInfo
     private  lateinit var imagefile:String
+    private var  idimage by Delegates.notNull<Long>()
+    private lateinit var uploadFile: MultipartBody.Part
 
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
@@ -203,7 +208,7 @@ class scannerActivity : AppCompatActivity() {
                     }
                 }else
                 {
-                    text.text="error"
+                  //  text.text="error"
 
                 }
             }
@@ -400,7 +405,7 @@ class scannerActivity : AppCompatActivity() {
             // negative button text and action
             .setNegativeButton("Cancel", DialogInterface.OnClickListener {
                     dialog, id -> dialog.cancel()
-                regler_payement(scannedValue, rBar.rating.toString(),comment.text.toString())
+                regler_payement(scannedValue, "-1",comment.text.toString())
                 goTosegond()
 
             })
@@ -467,7 +472,8 @@ class scannerActivity : AppCompatActivity() {
         var id:Long?=null
         var adresse:String?=null
         var email:String?=null
-        var idimage:Long?=null
+
+
 
         AccountEnd.authToken = session.gettokenDetails()
         apiService = AccountEnd.retrofit.create(AccountController::class.java)
@@ -483,7 +489,9 @@ class scannerActivity : AppCompatActivity() {
                     numTel=costumer.user?.numTel
                    // urlimage=costumer.user?.urlImage
                     id=costumer.user?.id
-                    idimage=costumer.user?.image?.id
+                    idimage= costumer.user?.image?.id!!
+
+
                     adresse= costumer.user?.adresse
                     email=costumer.email
                     lateinit var decrypted:String
@@ -535,48 +543,49 @@ class scannerActivity : AppCompatActivity() {
                     } catch (e: Exception) {
                         e.printStackTrace()
                     }
-                    var accou:DataReqController
-                    accou = AuthenEndReq.retrofit.create(DataReqController::class.java)
-                    accou.addCommand(data).enqueue(object : retrofit2.Callback<Command>{
-                        override fun onResponse(call: Call<Command>, response: Response<Command>) {
 
-                            print("okkkkkkkkkkkk")
-                        }
-                        override fun onFailure(call: Call<Command>, t: Throwable) {
-                            println(t.message)
-                        }
-                    })
-                    val thread = Thread {
-                        try {
-                            val inputStream: InputStream =
-                                URL("http://192.168.86.23:9099/images/get/" + idimage).openConnection().getInputStream()
-                            var file: File? = createTempFile()
-                            if (file != null) {
-                                file.copyInputStreamToFile(inputStream)
-                            }
-                            val uploadFile = MultipartBody.Part.createFormData(
-                                "imageFile",
-                                file?.name,
-                                RequestBody.create(MediaType.parse("multipart/form-data"), file)
-                            )
-                            val request = RequestBody.create(MediaType.parse("multipart/form-data"), id.toString())
-                            accou.addImage(request, uploadFile).enqueue(object : retrofit2.Callback<String> {
-                                override fun onResponse(call: Call<String>, response: Response<String>) {
-                                    println(response.body()!!)
+
+                            var accou:DataReqController
+                            accou = AuthenEndReq.retrofit.create(DataReqController::class.java)
+                            accou.addCommand(data).enqueue(object : retrofit2.Callback<Command>{
+                                override fun onResponse(call: Call<Command>, response: Response<Command>) {
+
+                                    print("okkkkkkkkkkkk")
+                                    val thread = Thread {
+                                        try {
+                                    var file: File? = createTempFile()
+                                    val `in` = URL("http://192.168.2.103:9099/images/get/" + idimage).openStream()
+                                    if (file != null) {
+                                        file.copyInputStreamToFile(`in`)
+                                    }
+                                    uploadFile = MultipartBody.Part.createFormData(
+                                        "imageFile",
+                                        file?.name,
+                                        RequestBody.create(MediaType.parse("multipart/form-data"), file)
+                                    )
+                                    val request = RequestBody.create(MediaType.parse("multipart/form-data"), id.toString())
+                                    accou = AuthenEndReq.retrofit.create(DataReqController::class.java)
+                                    accou.addImage(request, uploadFile!!).enqueue(object : retrofit2.Callback<String> {
+                                        override fun onResponse(call: Call<String>, response: Response<String>) {
+                                            println()
+                                            println("this            string youwant   "+response.body()!!)
+                                        }
+
+                                        override fun onFailure(call: Call<String>, t: Throwable) {
+                                            println(t.message)
+                                        }
+
+                                    })
+                                } catch (e: java.lang.Exception) {
+                                        e.printStackTrace()
+                                    }
                                 }
 
-                                override fun onFailure(call: Call<String>, t: Throwable) {
+                                thread.start()}
+                                override fun onFailure(call: Call<Command>, t: Throwable) {
                                     println(t.message)
                                 }
-
                             })
-                        } catch (e: java.lang.Exception) {
-                            e.printStackTrace()
-                        }
-                    }
-
-                    thread.start()
-
 
 
 
@@ -595,6 +604,9 @@ class scannerActivity : AppCompatActivity() {
         })
 
     }
+
+
+
     fun File.copyInputStreamToFile(inputStream: InputStream) {
         this.outputStream().use { fileOut ->
             inputStream.copyTo(fileOut)

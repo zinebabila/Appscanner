@@ -22,6 +22,7 @@ import com.example.scanner.security.TokenManager
 import com.example.scannerapp.bo.RealPathUtil
 import com.example.systemposfront.controller.AccountController
 import com.example.systemposfront.interfaces.AccountEnd
+import com.squareup.picasso.Picasso
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -77,21 +78,7 @@ class ModifierActivity : AppCompatActivity() {
                     tel.setText(merchant.user?.numTel)
 
                     adresse.setText(merchant.user?.adresse)
-                    val SDK_INT = Build.VERSION.SDK_INT
-                    if (SDK_INT > 8) {
-                        val policy = StrictMode.ThreadPolicy.Builder()
-                            .permitAll().build()
-                        StrictMode.setThreadPolicy(policy)
-                        val `in`: InputStream =
-                            URL("http://192.168.2.106:9099/images/get/"+merchant.user?.image?.id!!).openConnection().getInputStream()
-                        var profilePic = BitmapFactory.decodeStream(`in`)
-
-                        val stream = ByteArrayOutputStream()
-                        profilePic.compress(Bitmap.CompressFormat.PNG, 100, stream)
-
-                        imagePro.setImageBitmap(profilePic)
-                        // imagePro.setImageBitmap(StringToBitMap(response.body()!!))
-                    }
+                    Picasso.get().load(merchant.user?.image?.Url).into(imagePro)
 
 
                     image.setOnClickListener(View.OnClickListener {
