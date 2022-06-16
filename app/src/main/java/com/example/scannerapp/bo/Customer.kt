@@ -1,5 +1,6 @@
 package com.example.scanner.bo
 
+import com.example.scannerapp.bo.Transaction
 import com.example.scannerapp.bo.Wallet
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
@@ -14,6 +15,9 @@ class Customer : Person() {
     @SerializedName("account")
     @Expose
     var account: Account? = null
+    @SerializedName("transactionSet")
+    @Expose
+    var transactions:MutableSet<Transaction?>?=HashSet()
 
 
 }

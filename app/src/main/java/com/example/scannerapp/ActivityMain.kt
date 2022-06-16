@@ -127,6 +127,7 @@ class ActivityMain : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.pp) {
+            goTransaction()
             drawer.closeDrawer(GravityCompat.START)
             return true
         }
@@ -136,6 +137,12 @@ class ActivityMain : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
 
         return false
+    }
+
+    private fun goTransaction() {
+        val intent = Intent(this, TransactionActivity::class.java)
+
+        startActivity(intent)
     }
 
     private fun gowallet() {

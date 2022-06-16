@@ -73,5 +73,8 @@
             android:parentActivityName=".ActivityMain"
             >
         </activity>
+        <activity android:name=".TransactionActivity"
+            android:exported="true"
+            android:parentActivityName=".ActivityMain"/>
     </application>
 </manifest>

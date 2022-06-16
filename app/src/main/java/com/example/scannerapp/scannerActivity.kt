@@ -312,6 +312,7 @@ class scannerActivity : AppCompatActivity() {
                                         }
                                         println(wallet!!.solde)
                                         modifierwallet(wallet!!, merchant.user!!)
+                                        transactionadd(soldewallet,wallet!!.currency?.id!!)
                                         success()
                                         println("**************************************")
 
@@ -387,6 +388,27 @@ class scannerActivity : AppCompatActivity() {
 
         }
 
+    private fun transactionadd(soldewallet: Double,id:Long) {
+        var req=ReqTransaction()
+        req.id_currency=id
+        req.somme=soldewallet
+        req.id_user=session.getidAccount()
+        AccountEnd.authToken = session.gettokenDetails()
+        apiServicewallet = AccountEnd.retrofit.create(WalletController::class.java)
+        apiServicewallet.ajouterTransaction(req).enqueue(object : retrofit2.Callback<Transaction> {
+            override fun onResponse(
+                call: Call<Transaction>,
+                response: Response<Transaction>
+            ) {
+                println("transaction valide")
+            }
+
+            override fun onFailure(call: Call<Transaction>, t: Throwable) {
+                println(t.message)
+            }
+        })
+    }
+
 
     private fun haverating(){
         val dialogBuilder = AlertDialog.Builder(this@scannerActivity)
@@ -443,9 +465,6 @@ class scannerActivity : AppCompatActivity() {
             override fun onResponse(call: Call<Wallet>, response: Response<Wallet>) {
                     var wallet = response.body()!!
 
-
-
-
             }
 
             override fun onFailure(call: Call<Wallet>, t: Throwable) {
@@ -453,6 +472,7 @@ class scannerActivity : AppCompatActivity() {
             }
 
         })
+
     }
 
     private fun goTosegond() {
