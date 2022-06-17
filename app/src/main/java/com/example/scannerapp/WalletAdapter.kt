@@ -58,7 +58,7 @@ class WalletAdapter(var context: Context, var products: MutableSet<Wallet?>? =Ha
 
         fun bindProduct(product: Wallet) {
 
-            run("http://api.coingecko.com/api/v3/simple/price?ids=Bitcoin%2CRavencoin%2CEthereum%2CTether%2Clitecoin&vs_currencies=usd",product)
+            run("http://api.coingecko.com/api/v3/simple/price?ids=Bitcoin%2CRavencoin%2CEthereum%2CTether%2Clitecoin%2Cbitcash&vs_currencies=usd",product)
             //  val parser:JSONObject= JSONObject(result)
 
             val df = DecimalFormat("0.00")

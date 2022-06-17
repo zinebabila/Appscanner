@@ -58,7 +58,7 @@ class WalletsActivity : AppCompatActivity() {
 
                         shopping_cart_recyclerView.layoutManager = LinearLayoutManager(this@WalletsActivity)
                     }
-                    runurl("http://api.coingecko.com/api/v3/simple/price?ids=Bitcoin%2CRavencoin%2CEthereum%2CTether%2Clitecoin&vs_currencies=usd",list)
+                    runurl("http://api.coingecko.com/api/v3/simple/price?ids=Bitcoin%2CRavencoin%2CEthereum%2CTether%2Clitecoin%2Cbitcash&vs_currencies=usd",list)
                     //  val parser:JSONObject= JSONObject(result)
 
 

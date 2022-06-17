@@ -7,11 +7,14 @@ import android.graphics.BitmapFactory
 import android.os.*
 import android.os.StrictMode.ThreadPolicy
 import android.util.Base64
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.SearchView
 import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -115,8 +118,28 @@ class ActivityMain : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu, menu)
-        return super.onCreateOptionsMenu(menu)
+        val inflater = menuInflater
+        inflater.inflate(R.menu.menu, menu)
+
+        val notification=menu.findItem(R.id.notification)
+        notification.setOnMenuItemClickListener(MenuItem.OnMenuItemClickListener {
+
+           // AccountEnd.authToken = session.gettokenDetails()
+           // apiServiceNoti = AccountEnd.retrofit.create(NotificationController::class.java)
+           // getNotification()
+
+
+
+
+            false
+        })
+        val logout=menu.findItem(R.id.logout)
+        logout.setOnMenuItemClickListener(MenuItem.OnMenuItemClickListener{
+            session.Logoutlser()
+            false
+        })
+
+        return true
     }
 
     private fun gotoSecondActivity() {

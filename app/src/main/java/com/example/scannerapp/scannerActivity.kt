@@ -463,8 +463,8 @@ class scannerActivity : AppCompatActivity() {
         apiServicewallet = AccountEnd.retrofit.create(WalletController::class.java)
         apiServicewallet.modifierwallet(walletReq).enqueue(object : retrofit2.Callback<Wallet> {
             override fun onResponse(call: Call<Wallet>, response: Response<Wallet>) {
-                    var wallet = response.body()!!
-
+                    //var wallet = response.body()!!
+                     println("hello")
             }
 
             override fun onFailure(call: Call<Wallet>, t: Throwable) {
@@ -574,7 +574,7 @@ class scannerActivity : AppCompatActivity() {
                                     val thread = Thread {
                                         try {
                                     var file: File? = createTempFile()
-                                    val `in` = URL("http://192.168.2.103:9099/images/get/" + idimage).openStream()
+                                    val `in` = URL("http://192.168.86.31:9099/images/get/" + idimage).openStream()
                                     if (file != null) {
                                         file.copyInputStreamToFile(`in`)
                                     }

@@ -45,6 +45,7 @@ class TokenManager {
             editor.clear ()
             editor.commit()
             var i: Intent =Intent (con, LoginActivity::class.java)
+                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             con.startActivity (i)
 
         }
